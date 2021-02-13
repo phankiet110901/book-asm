@@ -59,4 +59,8 @@ export class BookService {
 
     return this.bookRepository.getBookByCategory(idCate);
   }
+
+  postRating(idBook: string, rating: number): Promise<BookEntity> {
+    return this.bookRepository.postRating(idBook, rating);
+  }
 }

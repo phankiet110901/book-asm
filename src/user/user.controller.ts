@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -32,8 +33,8 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
 
+  @Get()
   @UseGuards(AuthGuard)
-  @Get('get-all-user')
   getAllUser(): Promise<UserEntity> {
     return this.userService.getAllUser();
   }
@@ -44,4 +45,12 @@ export class UserController {
   updateUser(@Param('idUser') idUser: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(idUser, updateUserDto);
   }
+
+
+  @Delete("delete-user/:idUser")
+  @UseGuards(AuthGuard)
+  deleteUser(@Param("idUser") idUser: string ): Promise<UserEntity> {
+    return this.userService.deleteUser(idUser);
+  }
+
 }

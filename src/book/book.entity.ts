@@ -22,4 +22,10 @@ export class BookEntity extends BaseEntity {
 
   @Column()
   id_category: string;
+
+  @Column({ nullable: true })
+  rating: number;
+
+  @Column({ default: 0 })
+  time_rating: number;
 }

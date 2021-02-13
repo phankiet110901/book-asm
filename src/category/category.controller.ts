@@ -41,6 +41,7 @@ export class CategoryController {
   }
 
   @Delete('delete/:idCategory')
+  @UseGuards(AuthGuard)
   deleteCate(@Param("idCategory") idCate: string): Promise<CategoryEntity> {
     return this.categoryService.deleteCategory(idCate); 
   }

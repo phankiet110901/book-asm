@@ -12,7 +12,7 @@ import { CategoryModule } from './category/category.module';
     UserModule,
     ConfigModule.forRoot({envFilePath: './development.env'}),
     BookModule,
-    CategoryModule
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

@@ -9,7 +9,13 @@ import { UpdateBookDto } from './dto/update-book.dto';
 @EntityRepository(BookEntity)
 export class BookRepository extends Repository<BookEntity> {
   async getAllBook(): Promise<BookEntity> {
-    return await this.query(`SELECT * FROM public.Books`);
+    const allBook = await this.query(`SELECT * FROM public.Books`);
+    return allBook.map((book) => {
+      book.img_book = `${process.env.DOMAIN}/get-img-book/${book.img_book}`;
+      book.rating = Math.round(book.rating / book.time_rating);
+      delete book.time_rating;
+      return book;
+    });
   }
 
   async createBook(createBookDto: CreateBookDto): Promise<BookEntity> {
@@ -55,24 +61,47 @@ export class BookRepository extends Repository<BookEntity> {
   }
 
   async deleteBook(idBook: string): Promise<BookEntity> {
-    const foundBook = await this.findOne({where:{id_book: idBook}});
+    const foundBook = await this.findOne({ where: { id_book: idBook } });
 
-    if(!foundBook) {
+    if (!foundBook) {
       throw new BadRequestException(`Can not find book id ${idBook}`);
     }
 
     return await foundBook.remove();
   }
 
-  async editBook(updateBookDto: UpdateBookDto, idBook: string) :Promise<BookEntity> {
-    const foundBook = await this.findOne({where: {id_book: idBook}});
+  async editBook(
+    updateBookDto: UpdateBookDto,
+    idBook: string,
+  ): Promise<BookEntity> {
+    const foundBook = await this.findOne({ where: { id_book: idBook } });
 
-    if(!foundBook) {
+    if (!foundBook) {
       throw new BadRequestException(`Can not found book id ${idBook}`);
     }
 
-    await this.update({id_book: idBook}, updateBookDto);
-    const respBook = await this.findOne({id_book: idBook});
+    await this.update({ id_book: idBook }, updateBookDto);
+    const respBook = await this.findOne({ id_book: idBook });
     return respBook;
+  }
+
+  async postRating(idBook: string, rating: number): Promise<BookEntity> {
+    if (isNaN(rating) === true || rating <= 0 || rating > 5) {
+      throw new BadRequestException(
+        `Rating must be a number less than 5 and more than 0`,
+      );
+    }
+
+    const foundBook = await this.findOne({ where: { id_book: idBook } });
+    if (!foundBook) {
+      throw new BadRequestException(`Can not find book id ${idBook}`);
+    }
+    foundBook.time_rating += 1;
+    foundBook.rating = foundBook.rating + rating;
+
+    await foundBook.save();
+    foundBook.rating = Math.round(foundBook.rating / foundBook.time_rating);
+    delete foundBook.time_rating;
+    return foundBook;
   }
 }

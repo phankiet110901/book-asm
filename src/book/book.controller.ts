@@ -42,7 +42,10 @@ export class BookController {
 
   @UseGuards(AuthGuard)
   @Put('edit-book/:idBook')
-  editBook(@Body() updateBookDto: UpdateBookDto, @Param("idBook") idBook: string): Promise<BookEntity> {
+  editBook(
+    @Body() updateBookDto: UpdateBookDto,
+    @Param('idBook') idBook: string,
+  ): Promise<BookEntity> {
     return this.bookService.editBook(updateBookDto, idBook);
   }
 
@@ -98,5 +101,14 @@ export class BookController {
   @Get('get-img-book/:fileName')
   getImgBook(@Param('fileName') fileName: string, @Res() res) {
     return res.sendFile(join(__dirname, '../..', 'uploads/' + fileName));
+  }
+
+  @Post('post-rating/:idBook')
+  @UseGuards(AuthGuard)
+  postRating(
+    @Param('idBook') idBook: string,
+    @Body('rating') rate: number,
+  ): Promise<BookEntity> {
+    return this.bookService.postRating(idBook, rate);
   }
 }

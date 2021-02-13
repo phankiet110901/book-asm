@@ -28,4 +28,8 @@ export class UserService {
     updateUser(idUser: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {
         return this.userRepository.updateUser(idUser, updateUserDto);
     }
+
+    deleteUser(idUser: string): Promise<UserEntity> {
+        return this.userRepository.deleteUser(idUser);
+    }
 }

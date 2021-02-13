@@ -1,7 +1,15 @@
+import { IsInt, IsNotEmpty } from 'class-validator';
+
 export class UpdateBookDto {
-    name_book: string;
-    price_book: number;
-    author: string;
-    review: string;
-    id_category: string;
+  @IsNotEmpty()
+  name_book: string;
+  @IsNotEmpty()
+  @IsInt()
+  price_book: number;
+  @IsNotEmpty()
+  author: string;
+  @IsNotEmpty()
+  review: string;
+  @IsNotEmpty()
+  id_category: string;
 }

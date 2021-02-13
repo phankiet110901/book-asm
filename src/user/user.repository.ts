@@ -93,4 +93,16 @@ export class UserRepository extends Repository<UserEntity> {
     await foundUser.save();
     return foundUser;
   }
+
+  async deleteUser(idUser: string): Promise<UserEntity> {
+    const foundUser = await this.findOne({ where: { id_user: idUser } });
+
+    try {
+      foundUser.remove();
+    } catch {
+      throw new BadRequestException(`Can not delete userid ${idUser}`);
+    }
+
+    return foundUser;
+  }
 }

@@ -39,7 +39,6 @@ export class UserRepository extends Repository<UserEntity> {
       loginDto.password,
       foundUser.password_user,
     );
-    console.log(foundUser, loginDto.password);
 
     if (!checkPass) {
       throw new BadRequestException('Wrong password !!!');
@@ -50,7 +49,7 @@ export class UserRepository extends Repository<UserEntity> {
         id: foundUser.id_user,
       },
       process.env.SECRET_KEY,
-      { expiresIn: '7d' },
+      { expiresIn: '30d' },
     );
 
     return {

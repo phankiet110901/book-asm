@@ -14,7 +14,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
-import * as jwt from 'jsonwebtoken';
 import { AuthGuard } from 'src/share/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 

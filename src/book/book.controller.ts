@@ -99,4 +99,5 @@ export class BookController {
   getImgBook(@Param('fileName') fileName: string, @Res() res) {
     return res.sendFile(join(__dirname, '../..', 'uploads/' + fileName));
   }
+
 }

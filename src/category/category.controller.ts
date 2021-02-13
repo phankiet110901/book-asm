@@ -18,7 +18,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
-  @Post('create')
+  @Post()
   @UseGuards(AuthGuard)
   createCategory(
     @Body() createCateDto: CreateCategoryDto,
